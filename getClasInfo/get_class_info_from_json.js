@@ -94,7 +94,7 @@ module.exports = class JsonToDartClassInfo {
                     return this.#handelList(dataType, key)
                 }
 
-                if (dataType == "null") return "Null?"
+                if (dataType == "null") return "dynamic"
                 return dataType
             default:
                 return dataType;
