@@ -72,8 +72,14 @@ module.exports = class JsonToDartClassInfo {
                     className: ""
                 };
             case "number":
+                if(this.#isInteger(dataType))
                 return {
                     dataType: "int",
+                    inbuilt: true,
+                    className: ""
+                };
+                return {
+                    dataType: "double",
                     inbuilt: true,
                     className: ""
                 };
@@ -103,7 +109,7 @@ module.exports = class JsonToDartClassInfo {
         let dataTypeInfo = className ?? this.#getDartDataType(dataType[0], key)
         return {
             dataType: `List<${dataTypeInfo?.dataType}>`,
-            inbuilt: false,
+            inbuilt: dataTypeInfo.inbuilt,
             className: dataTypeInfo?.className
         }
     }
@@ -138,5 +144,9 @@ module.exports = class JsonToDartClassInfo {
         return array.find((data) => JSON.stringify(data.parameters) == jsonData)
     }
 
+    
+    #isInteger(n) {
+        return n === +n && n === (n|0);
+    }
 }
 

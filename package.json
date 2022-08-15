@@ -1,11 +1,20 @@
 {
   "name": "JtoD",
   "displayName": "json to dart",
-  "description": "",
+  "description": "convert JSON data into DART data model",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.70.0"
   },
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/praveen576232/JsonToDart"
+	},
+	"bugs": {
+		"url": "https://github.com/praveen576232/JsonToDart/issues"
+	},
+	"publisher": "praveend",
+	"icon": "screenshots/dart.png",
   "categories": [
     "Other"
   ],
@@ -17,7 +26,14 @@
     "commands": [{
       "command": "JtoD.JtoD",
       "title": "JSON to Dart"
-    }]
+    }],
+    "keybindings":[
+			{
+				"command": "JtoD.JtoD",
+				"key": "alt+d"
+			
+			}
+		]
   },
   "scripts": {
     "lint": "eslint .",
