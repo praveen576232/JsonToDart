@@ -94,10 +94,22 @@ module.exports = class JsonToDartClassInfo {
                     return this.#handelList(dataType, key)
                 }
 
-                if (dataType == "null") return "dynamic"
-                return dataType
+                if (dataType == "null") return {
+                    dataType: "dynamic",
+                    inbuilt: true,
+                    className: ""
+                }
+                return {
+                    dataType: "dynamic",
+                    inbuilt: true,
+                    className: ""
+                }
             default:
-                return dataType;
+                return  {
+                    dataType: "dynamic",
+                    inbuilt: true,
+                    className: ""
+                };
         }
     }
     #getMapKeyDataType(parameters) {
