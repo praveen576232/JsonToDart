@@ -47,7 +47,7 @@ bool operator ==(Object other){
 int get hashCode {
     return Object.hash(
                 runtimeType,
-                ${myClass.parameters.map((parameter)=>parameter.name).join(", \n")}
+                ${myClass.parameters.length <20 ? myClass.parameters.map((parameter)=>parameter.name).join(", \n") :  myClass.parameters.slice(0,19).map((parameter)=>parameter.name).join(", \n")}
     );
 }
     
