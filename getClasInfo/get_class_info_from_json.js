@@ -28,7 +28,7 @@ module.exports = class JsonToDartClassInfo {
                 classDetails.parameters.push({
                     required: false,
                     name: parameterName,
-                    dataType: `${dataTypeInfo?.dataType}?`,
+                    dataType:dataTypeInfo?.dataType === "dynamic"? "dynamic" : `${dataTypeInfo?.dataType}?`,
                     inbuilt: dataTypeInfo.inbuilt ?? false,
                     className: dataTypeInfo.className ?? ""
                 })
@@ -117,6 +117,11 @@ module.exports = class JsonToDartClassInfo {
         return parameters[0].dataType?.replace("?", "")
     }
     #handelList(dataType, key) {
+        if(dataType.length <=0) return {
+            dataType: `List<dynamic>`,
+            inbuilt: true,
+            className: ""
+        }
         let className = this.#handelMap(dataType[0], key)
         let dataTypeInfo = className ?? this.#getDartDataType(dataType[0], key)
         return {
