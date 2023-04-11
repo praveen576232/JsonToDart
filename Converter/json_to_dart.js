@@ -18,7 +18,7 @@ return ${myClass.className}(
 Map<String,Object?> toJson(){
     return {
             ${
-            myClass.parameters.map((parameter)=>`'${parameter.name}': ${parameter.inbuilt ?  parameter.name : toJsonForClass(parameter)}`).join(",\n")
+            myClass.parameters.map((parameter)=>`'${parameter.parameterName}': ${parameter.inbuilt ?  parameter.name : toJsonForClass(parameter)}`).join(",\n")
             }
     };
 }
@@ -73,33 +73,33 @@ function toJsonForClass(parameter) {
    if(parameter.dataType.startsWith("List")){
       return `${parameter.name}?.map<Map<String,dynamic>>((data)=> data.toJson()).toList()` 
    }else if(parameter.dataType.startsWith("Map")){
-    return `${parameter.name}['${parameter.name}']?.toJson()`
+    return `${parameter.name}['${parameter.parameterName}']?.toJson()`
    }
    return `${parameter.name}?.toJson()`
 }
 function fromJsonForClass(parameter) {
    if(parameter.dataType.startsWith("List")){
-      return isOptionalDataType(parameter.dataType)? parameter.isDefault ? defaultValueParameterForClassDataTypeList(parameter):  `json['${parameter.name}'] == null ? null : (json['${parameter.name}'] as List).map<${parameter.className}>((data)=> ${parameter.className}.fromJson(data  as Map<String,Object?>)).toList()`  :parameter.isDefault ? defaultValueParameterForClassDataTypeList(parameter) : `(json['${parameter.name}'] as List).map<${parameter.className}>((data)=> ${parameter.className}.fromJson(data as Map<String,Object?>)).toList()` 
+      return isOptionalDataType(parameter.dataType)? parameter.isDefault ? defaultValueParameterForClassDataTypeList(parameter):  `json['${parameter.parameterName}'] == null ? null : (json['${parameter.name}'] as List).map<${parameter.className}>((data)=> ${parameter.className}.fromJson(data  as Map<String,Object?>)).toList()`  :parameter.isDefault ? defaultValueParameterForClassDataTypeList(parameter) : `(json['${parameter.name}'] as List).map<${parameter.className}>((data)=> ${parameter.className}.fromJson(data as Map<String,Object?>)).toList()` 
    }
-   return isOptionalDataType(parameter.dataType)?parameter.isDefault ? defaultValueParameterForClassDataTypeDynamic(parameter) : `json['${parameter.name}'] == null ? null : ${parameter.className}.fromJson(json['${parameter.name}']  as Map<String,Object?>)` :parameter.isDefault ? defaultValueParameterForClassDataTypeDynamic(parameter) :`${parameter.className}.fromJson(json['${parameter.name}']  as Map<String,Object?>)`
+   return isOptionalDataType(parameter.dataType)?parameter.isDefault ? defaultValueParameterForClassDataTypeDynamic(parameter) : `json['${parameter.parameterName}'] == null ? null : ${parameter.className}.fromJson(json['${parameter.parameterName}']  as Map<String,Object?>)` :parameter.isDefault ? defaultValueParameterForClassDataTypeDynamic(parameter) :`${parameter.className}.fromJson(json['${parameter.name}']  as Map<String,Object?>)`
 }
 function defaultValueParameter(parameter){
-    return  `json['${parameter.name}'] == null ? ${parameter.defaultValue} : json['${parameter.name}'] as ${removeQuestion(parameter.dataType)}`
+    return  `json['${parameter.parameterName}'] == null ? ${parameter.defaultValue} : json['${parameter.parameterName}'] as ${removeQuestion(parameter.dataType)}`
 }
 function defaultValueParameterForClassDataTypeList(parameter){
-    return  `json['${parameter.name}'] == null ? ${parameter.defaultValue} : json['${parameter.name}'].map<${parameter.className}>((data)=> (${parameter.className} as List).fromJson(data  as Map<String,Object?>)).toList()`
+    return  `json['${parameter.parameterName}'] == null ? ${parameter.defaultValue} : json['${parameter.parameterName}'].map<${parameter.className}>((data)=> (${parameter.className} as List).fromJson(data  as Map<String,Object?>)).toList()`
 }
 function defaultValueParameterForClassDataTypeMap(parameter){
     return   `${parameter.name}['${parameter.name}'] == null ? ${parameter.defaultValue} : ${parameter.name}['${parameter.name}']`
 }
 function defaultValueParameterForClassDataTypeDynamic(parameter){
-    return   `json['${parameter.name}'] == null ? ${parameter.defaultValue} : ${parameter.className}.fromJson(json['${parameter.name}'])`
+    return   `json['${parameter.parameterName}'] == null ? ${parameter.defaultValue} : ${parameter.className}.fromJson(json['${parameter.parameterName}'])`
 }
 function notOptionalDataType(parameter){
-    return `json['${parameter.name}'] as ${removeQuestion(parameter.dataType)}`
+    return `json['${parameter.parameterName}'] as ${removeQuestion(parameter.dataType)}`
 }
 function nullDataType(parameter){
-    return `json['${parameter.name}'] == null ? null : json['${parameter.name}'] as ${removeQuestion(parameter.dataType)}`
+    return `json['${parameter.parameterName}'] == null ? null : json['${parameter.parameterName}'] as ${removeQuestion(parameter.dataType)}`
 }
 
 function isOptionalDataType(dataType) {
