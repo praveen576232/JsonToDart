@@ -27,7 +27,7 @@ module.exports = class JsonToDartClassInfo {
 
                 classDetails.parameters.push({
                     required: false,
-                    name: parameterName,
+                    name:parameterName.length > 1 ?  parameterName.charAt(0).toLowerCase() + parameterName.slice(1) : parameterName.length > 0 ? parameterName.toLowerCase() : parameterName,
                     parameterName: key,
                     dataType:dataTypeInfo?.dataType === "dynamic"? "dynamic" : `${dataTypeInfo?.dataType}?`,
                     inbuilt: dataTypeInfo.inbuilt ?? false,

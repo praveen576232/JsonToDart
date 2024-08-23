@@ -79,9 +79,9 @@ function toJsonForClass(parameter) {
 }
 function fromJsonForClass(parameter) {
    if(parameter.dataType.startsWith("List")){
-      return isOptionalDataType(parameter.dataType)? parameter.isDefault ? defaultValueParameterForClassDataTypeList(parameter):  `json['${parameter.parameterName}'] == null ? null : (json['${parameter.name}'] as List).map<${parameter.className}>((data)=> ${parameter.className}.fromJson(data  as Map<String,Object?>)).toList()`  :parameter.isDefault ? defaultValueParameterForClassDataTypeList(parameter) : `(json['${parameter.name}'] as List).map<${parameter.className}>((data)=> ${parameter.className}.fromJson(data as Map<String,Object?>)).toList()` 
+      return isOptionalDataType(parameter.dataType)? parameter.isDefault ? defaultValueParameterForClassDataTypeList(parameter):  `json['${parameter.parameterName}'] == null ? null : (json['${parameter.parameterName}'] as List).map<${parameter.className}>((data)=> ${parameter.className}.fromJson(data  as Map<String,Object?>)).toList()`  :parameter.isDefault ? defaultValueParameterForClassDataTypeList(parameter) : `(json['${parameter.parameterName}'] as List).map<${parameter.className}>((data)=> ${parameter.className}.fromJson(data as Map<String,Object?>)).toList()` 
    }
-   return isOptionalDataType(parameter.dataType)?parameter.isDefault ? defaultValueParameterForClassDataTypeDynamic(parameter) : `json['${parameter.parameterName}'] == null ? null : ${parameter.className}.fromJson(json['${parameter.parameterName}']  as Map<String,Object?>)` :parameter.isDefault ? defaultValueParameterForClassDataTypeDynamic(parameter) :`${parameter.className}.fromJson(json['${parameter.name}']  as Map<String,Object?>)`
+   return isOptionalDataType(parameter.dataType)?parameter.isDefault ? defaultValueParameterForClassDataTypeDynamic(parameter) : `json['${parameter.parameterName}'] == null ? null : ${parameter.className}.fromJson(json['${parameter.parameterName}']  as Map<String,Object?>)` :parameter.isDefault ? defaultValueParameterForClassDataTypeDynamic(parameter) :`${parameter.className}.fromJson(json['${parameter.parameterName}']  as Map<String,Object?>)`
 }
 function defaultValueParameter(parameter){
     return  `json['${parameter.parameterName}'] == null ? ${parameter.defaultValue} : json['${parameter.parameterName}'] as ${removeQuestion(parameter.dataType)}`
@@ -90,7 +90,7 @@ function defaultValueParameterForClassDataTypeList(parameter){
     return  `json['${parameter.parameterName}'] == null ? ${parameter.defaultValue} : json['${parameter.parameterName}'].map<${parameter.className}>((data)=> (${parameter.className} as List).fromJson(data  as Map<String,Object?>)).toList()`
 }
 function defaultValueParameterForClassDataTypeMap(parameter){
-    return   `${parameter.name}['${parameter.name}'] == null ? ${parameter.defaultValue} : ${parameter.name}['${parameter.name}']`
+    return   `${parameter.name}['${parameter.name}'] == null ? ${parameter.defaultValue} : ${parameter.name}['${parameter.parameterName}']`
 }
 function defaultValueParameterForClassDataTypeDynamic(parameter){
     return   `json['${parameter.parameterName}'] == null ? ${parameter.defaultValue} : ${parameter.className}.fromJson(json['${parameter.parameterName}'])`
